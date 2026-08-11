@@ -1,0 +1,20 @@
+@media (max-width: 767px) {
+  .app-shell {
+    width: min(100%, 420px);
+    min-height: 100vh;
+    border-radius: 0;
+  }
+
+  .status-bar {
+    padding-top: 14px;
+  }
+
+  .home-screen {
+    min-height: auto;
+    padding-top: 60px;
+  }
+
+  .apps-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

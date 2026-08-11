@@ -1,0 +1,35 @@
+@media (min-width: 768px) {
+  .app-shell {
+    width: min(100%, 760px);
+    min-height: 900px;
+    border-radius: 46px;
+  }
+
+  .home-screen {
+    padding: 72px 28px 110px;
+  }
+
+  .apps-grid {
+    gap: 24px 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding: 32px;
+  }
+
+  .app-shell {
+    width: min(100%, 980px);
+    min-height: 700px;
+    border-radius: 38px;
+  }
+
+  .home-screen {
+    padding: 72px 34px 120px;
+  }
+
+  .app-window {
+    inset: 56px 24px 108px;
+  }
+}

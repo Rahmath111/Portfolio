@@ -1,0 +1,9 @@
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-shell {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  .apps-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

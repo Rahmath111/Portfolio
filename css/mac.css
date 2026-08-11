@@ -1,0 +1,9 @@
+@media (min-width: 1024px) {
+  .app-shell {
+    background: rgba(7, 12, 24, 0.8);
+  }
+
+  .app-window {
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  }
+}

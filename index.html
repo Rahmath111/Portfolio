@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rahmath Nisha | Portfolio</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/iphone.css" />
+    <link rel="stylesheet" href="css/ipad.css" />
+    <link rel="stylesheet" href="css/mac.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="dynamic-island"></div>
+
+      <header class="status-bar">
+        <div class="time" id="time">9:41</div>
+        <div class="status-icons">
+          <span class="network-pill">5G</span>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-full" id="battery-icon"></i>
+        </div>
+      </header>
+
+      <main class="home-screen">
+        <div class="top-row">
+          <div class="date-card">
+            <p class="weekday" id="weekday">Monday</p>
+            <h2 id="date-label">Jul 17</h2>
+          </div>
+          <div class="search-pill">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search apps</span>
+          </div>
+        </div>
+
+        <section class="apps-grid">
+          <button class="app" data-app="about">
+            <span class="icon icon-blue"><i class="fa-solid fa-user"></i></span>
+            <span>About</span>
+          </button>
+          <button class="app" data-app="experience">
+            <span class="icon icon-orange"><i class="fa-solid fa-briefcase"></i></span>
+            <span>Experience</span>
+          </button>
+          <button class="app" data-app="skills">
+            <span class="icon icon-green"><i class="fa-solid fa-code"></i></span>
+            <span>Skills</span>
+          </button>
+          <button class="app" data-app="resume">
+            <span class="icon icon-purple"><i class="fa-solid fa-file"></i></span>
+            <span>Resume</span>
+          </button>
+          <button class="app" data-app="projects">
+            <span class="icon icon-pink"><i class="fa-solid fa-rocket"></i></span>
+            <span>Projects</span>
+          </button>
+          <button class="app" data-app="contact">
+            <span class="icon icon-cyan"><i class="fa-solid fa-envelope"></i></span>
+            <span>Contact</span>
+          </button>
+          <button class="app" data-app="education">
+            <span class="icon icon-gold"><i class="fa-solid fa-graduation-cap"></i></span>
+            <span>Education</span>
+          </button>
+          <button class="app" data-app="info">
+            <span class="icon icon-sky"><i class="fa-solid fa-gear"></i></span>
+            <span>Info</span>
+          </button>
+        </section>
+      </main>
+
+      <section class="app-window" id="appWindow" aria-hidden="true">
+        <div class="app-window-header">
+          <div class="window-controls">
+            <button class="control close" data-action="close" aria-label="Close"></button>
+            <button class="control minimize" data-action="minimize" aria-label="Minimize"></button>
+            <button class="control maximize" data-action="maximize" aria-label="Maximize"></button>
+          </div>
+          <h3 class="app-title" id="appTitle">About</h3>
+        </div>
+        <div class="app-window-body">
+          <div class="window-content" id="windowContent"></div>
+        </div>
+      </section>
+
+      <footer class="dock">
+        <a class="dock-icon" href="https://github.com" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i></a>
+        <a class="dock-icon" href="mailto:rahmathnisha0502@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+        <a class="dock-icon" href="https://www.linkedin.com" target="_blank" rel="noreferrer"><i class="fa-brands fa-linkedin"></i></a>
+        <a class="dock-icon" href="#"><i class="fa-solid fa-file"></i></a>
+      </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/apps.js"></script>
+  </body>
+</html>
