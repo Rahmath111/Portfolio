@@ -1,20 +1,38 @@
 @media (max-width: 767px) {
+  .status-bar {
+    display: none;
+  }
+
+  .dock {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+  }
+
   .app-shell {
     width: min(100%, 420px);
     min-height: 100vh;
     border-radius: 0;
-  }
-
-  .status-bar {
-    padding-top: 14px;
+    padding-bottom: 86px;
   }
 
   .home-screen {
     min-height: auto;
-    padding-top: 60px;
+    padding-top: 30px;
+    padding-bottom: 24px;
+  }
+
+  .top-row {
+    margin-top: 0;
   }
 
   .apps-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .app-window {
+    inset: 20px 12px 86px;
   }
 }

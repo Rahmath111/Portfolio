@@ -2,10 +2,39 @@ const appContents = {
   about: {
     title: 'About',
     body: `
-      <div class="profile-card">
+      <div class="profile-card about-profile">
+        <div class="avatar-shell">
+          <img
+            class="profile-photo"
+            src="assets/profile/nisha.jpg"
+            alt="Rahmath Nisha"
+          />
+        </div>
         <div class="hero-badge">Flutter • UI • Product</div>
         <h2>Rahmath Nisha G</h2>
-        <p>I’m a developer who turns complex ideas into elegant, user-focused digital experiences. My work blends mobile innovation, modern UI, and practical product thinking.</p>
+        <p>I build digital products that feel intuitive, polished, and useful — combining mobile-first thinking, clean UI systems, and practical product execution.</p>
+
+        <div class="profile-stats">
+          <div>
+            <span>Focus</span>
+            <strong>Mobile UX</strong>
+          </div>
+          <div>
+            <span>Stack</span>
+            <strong>Flutter</strong>
+          </div>
+          <div>
+            <span>Style</span>
+            <strong>Clean UI</strong>
+          </div>
+        </div>
+
+        <div class="tag-list">
+          <span>Product Thinking</span>
+          <span>Design Systems</span>
+          <span>Frontend</span>
+          <span>Problem Solving</span>
+        </div>
       </div>
     `
   },
@@ -94,25 +123,108 @@ const appWindow = document.getElementById('appWindow');
 const appTitle = document.getElementById('appTitle');
 const windowContent = document.getElementById('windowContent');
 const controlButtons = document.querySelectorAll('.window-controls .control');
+const searchInput = document.getElementById('appSearch');
+const navBack = document.getElementById('navBack');
+const navHome = document.getElementById('navHome');
+const navRecent = document.getElementById('navRecent');
+let appHistory = [];
+let activeAppKey = null;
+
+function openApp(appKey, shouldTrack = true) {
+  const content = appContents[appKey];
+
+  if (content) {
+    appTitle.textContent = content.title;
+    windowContent.innerHTML = content.body;
+    appWindow.classList.remove('minimized', 'maximized');
+    appWindow.classList.add('active');
+    appWindow.setAttribute('aria-hidden', 'false');
+    activeAppKey = appKey;
+
+    if (shouldTrack) {
+      appHistory = appHistory.filter((item) => item !== appKey);
+      appHistory.push(appKey);
+      if (appHistory.length > 10) {
+        appHistory.shift();
+      }
+    }
+  }
+}
 
 apps.forEach((app) => {
   app.addEventListener('click', () => {
     const appKey = app.getAttribute('data-app');
-    const content = appContents[appKey];
-
-    if (content) {
-      appTitle.textContent = content.title;
-      windowContent.innerHTML = content.body;
-      appWindow.classList.remove('minimized', 'maximized');
-      appWindow.classList.add('active');
-      appWindow.setAttribute('aria-hidden', 'false');
-    }
+    openApp(appKey);
   });
 });
+
+function filterApps(query = '') {
+  const normalized = query.trim().toLowerCase();
+
+  apps.forEach((app) => {
+    const label = app.textContent.trim().toLowerCase();
+    const key = app.getAttribute('data-app')?.toLowerCase() ?? '';
+    const matches = !normalized || label.includes(normalized) || key.includes(normalized);
+
+    app.classList.toggle('is-hidden', !matches);
+    app.setAttribute('aria-hidden', String(!matches));
+  });
+}
+
+if (searchInput) {
+  searchInput.addEventListener('input', (event) => {
+    filterApps(event.target.value);
+  });
+
+  searchInput.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) return;
+
+    const matchingApp = Array.from(apps).find((app) => {
+      const label = app.textContent.trim().toLowerCase();
+      const key = app.getAttribute('data-app')?.toLowerCase() ?? '';
+      return label.includes(query) || key.includes(query);
+    });
+
+    if (matchingApp) {
+      openApp(matchingApp.getAttribute('data-app'));
+    }
+  });
+}
 
 function closeWindow() {
   appWindow.classList.remove('active', 'minimized', 'maximized');
   appWindow.setAttribute('aria-hidden', 'true');
+  activeAppKey = null;
+}
+
+function goHome() {
+  closeWindow();
+  if (searchInput) {
+    searchInput.value = '';
+    filterApps('');
+  }
+}
+
+function goBack() {
+  const previousApp = appHistory.length > 1 ? appHistory[appHistory.length - 2] : null;
+
+  if (previousApp) {
+    openApp(previousApp, false);
+    return;
+  }
+
+  closeWindow();
+}
+
+function openRecentApp() {
+  const previousApp = appHistory.length > 1 ? appHistory[appHistory.length - 2] : null;
+
+  if (previousApp) {
+    openApp(previousApp, false);
+  }
 }
 
 function minimizeWindow() {
@@ -135,6 +247,18 @@ controlButtons.forEach((button) => {
     if (action === 'maximize') maximizeWindow();
   });
 });
+
+if (navBack) {
+  navBack.addEventListener('click', goBack);
+}
+
+if (navHome) {
+  navHome.addEventListener('click', goHome);
+}
+
+if (navRecent) {
+  navRecent.addEventListener('click', openRecentApp);
+}
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {

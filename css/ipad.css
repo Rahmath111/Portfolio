@@ -1,9 +1,33 @@
 @media (min-width: 768px) and (max-width: 1023px) {
+  .status-bar {
+    display: none;
+  }
+
+  .dock {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+  }
+
   .app-shell {
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
+    min-height: 100vh;
+    border-radius: 28px;
+    padding-bottom: 86px;
+  }
+
+  .home-screen {
+    padding-top: 28px;
+    padding-bottom: 20px;
   }
 
   .apps-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .app-window {
+    inset: 20px 18px 96px;
   }
 }

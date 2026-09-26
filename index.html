@@ -37,10 +37,10 @@
             <p class="weekday" id="weekday">Monday</p>
             <h2 id="date-label">Jul 17</h2>
           </div>
-          <div class="search-pill">
+          <label class="search-pill" aria-label="Search apps">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <span>Search apps</span>
-          </div>
+            <input id="appSearch" type="search" placeholder="Search apps" aria-label="Search apps" />
+          </label>
         </div>
 
         <section class="apps-grid">
@@ -99,6 +99,18 @@
         <a class="dock-icon" href="https://www.linkedin.com" target="_blank" rel="noreferrer"><i class="fa-brands fa-linkedin"></i></a>
         <a class="dock-icon" href="#"><i class="fa-solid fa-file"></i></a>
       </footer>
+
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <button class="nav-btn" id="navBack" aria-label="Back">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <button class="nav-btn nav-home" id="navHome" aria-label="Home">
+          <i class="fa-solid fa-house"></i>
+        </button>
+        <button class="nav-btn" id="navRecent" aria-label="Recent">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
+      </nav>
     </div>
 
     <script src="js/main.js"></script>
