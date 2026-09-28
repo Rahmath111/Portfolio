@@ -6,10 +6,12 @@ function updateClock() {
   const shortDate = now.toLocaleDateString('en', { month: 'short', day: 'numeric' });
 
   const timeEl = document.getElementById('time');
+  const homeTimeEl = document.getElementById('home-time');
   const weekdayEl = document.getElementById('weekday');
   const dateEl = document.getElementById('date-label');
 
   if (timeEl) timeEl.textContent = `${hour}:${minute}`;
+  if (homeTimeEl) homeTimeEl.textContent = `${hour}:${minute}`;
   if (weekdayEl) weekdayEl.textContent = dayName;
   if (dateEl) dateEl.textContent = shortDate;
 }

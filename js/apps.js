@@ -41,11 +41,62 @@ const appContents = {
   experience: {
     title: 'Experience',
     body: `
-      <div class="timeline-card">
-        <h3>Career Journey</h3>
-        <div class="timeline-item"><strong>2025</strong><p>Flutter Developer at Priyonix, building refined LMS and mobile experiences.</p></div>
-        <div class="timeline-item"><strong>2025</strong><p>Application & Website Developer at ADSSAN, delivering full-stack web and mobile products.</p></div>
-        <div class="timeline-item"><strong>2024</strong><p>Contributed to UBill, an AI-powered billing platform with Flutter and BLoC architecture.</p></div>
+      <div class="experience-page">
+        <header class="experience-intro">
+          <span class="experience-eyebrow"><span></span> PROFESSIONAL EXPERIENCE</span>
+          <h2>Thoughtful code.<br />Useful products.</h2>
+          <p>Mobile apps, full-stack delivery, and systems built around real needs.</p>
+        </header>
+
+        <div class="experience-list">
+          <article class="experience-entry experience-current">
+            <div class="experience-entry-top">
+              <span class="experience-period">CURRENT</span>
+              <span class="experience-index">01</span>
+            </div>
+            <h3>Junior Flutter Developer</h3>
+            <p class="experience-company">TEKSINFO GLOBAL SERVICES</p>
+            <p class="experience-location">Chennai, Tamil Nadu, India</p>
+            <p class="experience-project"><i class="fa-solid fa-cube" aria-hidden="true"></i> Building UBill, an AI-powered billing and financial compliance application.</p>
+            <ul>
+              <li>Contributing to GST/TDS, invoicing, payroll, and inventory workflows.</li>
+              <li>Implementing BLoC architecture for scalable state management and modular Flutter development.</li>
+              <li>Integrating and optimizing REST APIs for reliable backend communication and responsive performance.</li>
+            </ul>
+            <div class="experience-tags"><span>Flutter</span><span>BLoC</span><span>REST APIs</span><span>FinTech</span></div>
+          </article>
+
+          <article class="experience-entry">
+            <div class="experience-entry-top">
+              <span class="experience-period">SEP 2025 — JAN 2026</span>
+              <span class="experience-index">02</span>
+            </div>
+            <h3>Application &amp; Website Developer</h3>
+            <p class="experience-company">ADSSAN</p>
+            <p class="experience-location">Trichy, Tamil Nadu,India</p>
+            <ul>
+              <li>Developed and deployed a PHP MBBS Question Bank with an admin dashboard, authentication, and database management.</li>
+              <li>Built Flutter e-commerce and food-ordering apps with payment integration, dynamic products, and API-driven architecture.</li>
+              <li>Managed end-to-end SDLC, backend integration, performance optimization, and Plesk deployment including DNS, SSL, databases, and server maintenance.</li>
+            </ul>
+            <div class="experience-tags"><span>Flutter</span><span>PHP</span><span>Payments</span><span>Plesk</span></div>
+          </article>
+
+          <article class="experience-entry">
+            <div class="experience-entry-top">
+              <span class="experience-period">JUNE 2025 — SEP 2025</span>
+              <span class="experience-index">03</span>
+            </div>
+            <h3>Flutter Developer</h3>
+            <p class="experience-company">PRIYONIX</p>
+            <p class="experience-location">Thanjavur, Tamil Nadu, India</p>
+            <ul>
+              <li>Developed a full-scale LMS mobile app with authentication, course modules, video streaming, assignments, and progress tracking.</li>
+              <li>Integrated REST APIs and local storage, building responsive UI with structured Flutter architecture and clean coding practices.</li>
+            </ul>
+            <div class="experience-tags"><span>Flutter</span><span>LMS</span><span>REST APIs</span><span>Local Storage</span></div>
+          </article>
+        </div>
       </div>
     `
   },
@@ -124,13 +175,20 @@ const appTitle = document.getElementById('appTitle');
 const windowContent = document.getElementById('windowContent');
 const controlButtons = document.querySelectorAll('.window-controls .control');
 const searchInput = document.getElementById('appSearch');
+const searchForm = document.getElementById('appSearchForm');
 const navBack = document.getElementById('navBack');
 const navHome = document.getElementById('navHome');
 const navRecent = document.getElementById('navRecent');
+const recentScreen = document.getElementById('recentScreen');
+const recentList = document.getElementById('recentList');
+const recentCount = document.getElementById('recentCount');
+const clearRecent = document.getElementById('clearRecent');
 let appHistory = [];
 let activeAppKey = null;
+let isRecentView = false;
+let recentReturnAppKey = null;
 
-function openApp(appKey, shouldTrack = true) {
+function openApp(appKey) {
   const content = appContents[appKey];
 
   if (content) {
@@ -139,15 +197,14 @@ function openApp(appKey, shouldTrack = true) {
     appWindow.classList.remove('minimized', 'maximized');
     appWindow.classList.add('active');
     appWindow.setAttribute('aria-hidden', 'false');
+    recentScreen.classList.remove('active');
+    recentScreen.setAttribute('aria-hidden', 'true');
+    isRecentView = false;
+    recentReturnAppKey = null;
     activeAppKey = appKey;
 
-    if (shouldTrack) {
-      appHistory = appHistory.filter((item) => item !== appKey);
-      appHistory.push(appKey);
-      if (appHistory.length > 10) {
-        appHistory.shift();
-      }
-    }
+    appHistory = appHistory.filter((item) => item !== appKey);
+    appHistory.push(appKey);
   }
 }
 
@@ -175,12 +232,14 @@ if (searchInput) {
   searchInput.addEventListener('input', (event) => {
     filterApps(event.target.value);
   });
+}
 
-  searchInput.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter') return;
-
-    const query = searchInput.value.trim().toLowerCase();
-    if (!query) return;
+if (searchForm) {
+  searchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const rawQuery = searchInput.value.trim();
+    const query = rawQuery.toLowerCase();
+    if (!rawQuery) return;
 
     const matchingApp = Array.from(apps).find((app) => {
       const label = app.textContent.trim().toLowerCase();
@@ -190,18 +249,33 @@ if (searchInput) {
 
     if (matchingApp) {
       openApp(matchingApp.getAttribute('data-app'));
+    } else {
+      const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(rawQuery)}`;
+      window.open(googleSearchUrl, '_blank', 'noopener,noreferrer');
     }
   });
 }
 
-function closeWindow() {
+function hideWindow() {
   appWindow.classList.remove('active', 'minimized', 'maximized');
   appWindow.setAttribute('aria-hidden', 'true');
   activeAppKey = null;
 }
 
+function closeWindow() {
+  if (activeAppKey) {
+    appHistory = appHistory.filter((appKey) => appKey !== activeAppKey);
+  }
+  hideWindow();
+  renderRecentApps();
+}
+
 function goHome() {
-  closeWindow();
+  recentScreen.classList.remove('active');
+  recentScreen.setAttribute('aria-hidden', 'true');
+  isRecentView = false;
+  recentReturnAppKey = null;
+  hideWindow();
   if (searchInput) {
     searchInput.value = '';
     filterApps('');
@@ -209,22 +283,90 @@ function goHome() {
 }
 
 function goBack() {
-  const previousApp = appHistory.length > 1 ? appHistory[appHistory.length - 2] : null;
-
-  if (previousApp) {
-    openApp(previousApp, false);
+  if (isRecentView) {
+    recentScreen.classList.remove('active');
+    recentScreen.setAttribute('aria-hidden', 'true');
+    isRecentView = false;
+    const appToRestore = recentReturnAppKey;
+    recentReturnAppKey = null;
+    if (appToRestore && appHistory.includes(appToRestore)) openApp(appToRestore);
     return;
   }
 
-  closeWindow();
-}
-
-function openRecentApp() {
-  const previousApp = appHistory.length > 1 ? appHistory[appHistory.length - 2] : null;
+  const previousApp = [...appHistory].reverse().find((appKey) => appKey !== activeAppKey);
 
   if (previousApp) {
-    openApp(previousApp, false);
+    openApp(previousApp);
+    return;
   }
+
+  goHome();
+}
+
+function renderRecentApps() {
+  if (!recentList) return;
+
+  recentList.replaceChildren();
+  recentCount.textContent = `${appHistory.length} open`;
+  clearRecent.disabled = appHistory.length === 0;
+
+  if (appHistory.length === 0) {
+    const emptyMessage = document.createElement('p');
+    emptyMessage.className = 'recent-empty';
+    emptyMessage.textContent = 'No recent apps';
+    recentList.append(emptyMessage);
+    return;
+  }
+
+  [...appHistory].reverse().forEach((appKey) => {
+    const content = appContents[appKey];
+    const appButton = document.createElement('button');
+    appButton.className = 'recent-card-open';
+    appButton.type = 'button';
+    appButton.innerHTML = `
+      <span class="recent-card-title">
+        <span class="recent-card-icon"><i class="fa-solid fa-window-maximize" aria-hidden="true"></i></span>
+        <span>${content.title}</span>
+      </span>
+      <span class="recent-card-preview"></span>
+    `;
+    appButton.querySelector('.recent-card-preview').textContent = content.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    appButton.addEventListener('click', () => openApp(appKey));
+
+    const card = document.createElement('article');
+    card.className = 'recent-card';
+    card.append(appButton);
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'recent-card-close';
+    closeButton.type = 'button';
+    closeButton.setAttribute('aria-label', `Close ${content.title}`);
+    closeButton.innerHTML = '<i class="fa-solid fa-xmark" aria-hidden="true"></i>';
+    closeButton.addEventListener('click', () => {
+      appHistory = appHistory.filter((key) => key !== appKey);
+      if (activeAppKey === appKey) hideWindow();
+      renderRecentApps();
+    });
+
+    card.append(closeButton);
+    recentList.append(card);
+  });
+}
+
+function openRecentApps() {
+  recentReturnAppKey = activeAppKey;
+  if (activeAppKey) hideWindow();
+  isRecentView = true;
+  renderRecentApps();
+  recentScreen.classList.add('active');
+  recentScreen.setAttribute('aria-hidden', 'false');
+}
+
+function clearRecentApps() {
+  appHistory = [];
+  recentReturnAppKey = null;
+  hideWindow();
+  renderRecentApps();
 }
 
 function minimizeWindow() {
@@ -257,11 +399,16 @@ if (navHome) {
 }
 
 if (navRecent) {
-  navRecent.addEventListener('click', openRecentApp);
+  navRecent.addEventListener('click', openRecentApps);
+}
+
+if (clearRecent) {
+  clearRecent.addEventListener('click', clearRecentApps);
 }
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
-    closeWindow();
+    if (isRecentView) goBack();
+    else closeWindow();
   }
 });
